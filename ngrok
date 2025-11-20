@@ -1,0 +1,33 @@
+WEEK 11 – Working on Windows 11 (Ngrok + Jenkins + GitHub Webhook)
+
+Step 1: Disable Antivirus 1. Go to Settings 2. Privacy & Security 3.
+Windows Security 4. Turn OFF antivirus temporarily.
+
+Step 2: Sign Up on Ngrok 1. Visit https://ngrok.com 2. Sign Up with
+name, email, password (10+ characters) 3. Log in.
+
+Step 3: Download Ngrok 1. Click Download for Windows (64-bit) 2. Save
+the zip file.
+
+Step 4: Install and Open Ngrok 1. Extract zip file 2. Run ngrok.exe
+
+Step 5: Connect Ngrok Account 1. Copy Authtoken from Ngrok dashboard 2.
+Run: ngrok config add-authtoken
+
+Step 6: Start Ngrok Tunnel for Jenkins 1. Check Jenkins port:
+http://localhost:8081 2. Run: ngrok http 8081 3. Copy the https ngrok
+URL generated.
+
+Step 7: Create Webhook in GitHub 1. Repo → Settings → Webhooks → Add
+Webhook 2. Payload URL: https:///github-webhook/ 3. Content Type:
+application/json 4. Select “Just the push event” 5. Add Webhook.
+
+Step 8: Configure Jenkins for Webhooks 1. Open Jenkins Dashboard 2.
+Select Job → Configure 3. Build Triggers: ✔ GitHub hook trigger for
+GITScm polling 4. Save.
+
+Step 9: Test the Setup 1. Make code change → push to GitHub 2. GitHub
+triggers webhook 3. Jenkins auto-build starts.
+
+Outcome: GitHub and Jenkins connected successfully using Ngrok +
+Webhooks.
