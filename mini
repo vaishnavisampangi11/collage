@@ -1,0 +1,240 @@
+EASY EXAM STEPS – WEEK 10 LAB (MINIKUBE + NAGIOS + AWS)
+
+This text file is designed so even a beginner with zero knowledge can
+follow and perform tasks in the exam.
+
+  ----------------------------------------
+  SECTION 1: MINIKUBE (KUBERNETES) SETUP
+  ----------------------------------------
+
+STEP 1: CHECK REQUIREMENTS
+
+You need: 1. Virtualization ON in BIOS (usually already enabled in most
+laptops) 2. Install Docker Desktop OR VirtualBox OR Hyper-V
+
+If using Windows: - Install Docker Desktop (recommended)
+
+STEP 2: DOWNLOAD AND INSTALL MINIKUBE
+
+1.  Open PowerShell as Administrator.
+2.  Type the following command and press Enter:
+
+curl -LO
+https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe
+
+3.  Install Minikube: .-installer.exe
+
+STEP 3: START MINIKUBE
+
+To start Minikube using Docker driver:
+
+minikube start –driver=docker or minikube start
+
+minikube status
+
+docker login (open docker)
+
+kubectl create deployment mynginx --image=nginx
+
+kubectl get deployments
+
+	kubectl get pods
+
+kubectl describe pods
+
+kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
+
+kubectl scale deployment mynginx --replicas=4
+
+kubectl get service myngnix
+
+kubectl port-forward svc/mynginx 8081:80
+
+minikube tunnel
+minikube service mynginx –url
+ 
+Minikube dashboard
+open url at brower
+(nginx,kubernetes)
+
+Stop and Clean Up
+1.	Stop Nginx Deployment:
+
+kubectl delete deployment mynginx
+kubectl delete service mynginx
+minikube stop
+ minikube delete
+ 
+
+Pull the Nagios Docker Image
+•	Open a terminal and run:
+  
+      docker pull jasonrivers/nagios:latest
+
+
+Run Nagios
+•	Command:
+docker run --name nagiosdemo -p 8888:80 jasonrivers/nagios:latest
+ 
+•	Open your browser and navigate to:
+http://localhost:8888
+o	Login Credentials:
+	Username: nagiosadmin
+	Password: nagios
+o	Once logged in, explore:
+	Hosts: View systems being monitored local host:8888
+open docker and see
+
+Step 5: Stop and Remove Nagios
+1.	Stop the Container:
+o	Command:
+docker stop nagiosdemo
+
+2.	Delete the Container:
+o	Command:
+docker rm nagiosdemo
+
+3.	Remove the Image (Optional):
+o	List images:
+docker images
+
+o	Delete the Nagios image:
+docker rmi jasonrivers/nagios:latest
+ 
+
+
+//////////////
+
+STEP 4: CHECK KUBECTL COMMAND
+
+kubectl helps communicate with Kubernetes cluster.
+
+Run: minikube kubectl – get pods -A
+
+Or start dashboard: minikube dashboard
+
+  -------------------------------------
+  SECTION 2: DEPLOY NGINX IN MINIKUBE
+  -------------------------------------
+
+STEP 1: CREATE DEPLOYMENT
+
+kubectl create deployment mynginx –image=nginx
+
+Check deployments: kubectl get deployments
+
+Check pods: kubectl get pods
+
+STEP 2: EXPOSE NGINX SERVICE
+
+kubectl expose deployment mynginx –type=NodePort –port=80
+–target-port=80
+
+STEP 3: SCALE PODS
+
+kubectl scale deployment mynginx –replicas=4
+
+STEP 4: ACCESS NGINX
+
+Option 1: Port Forwarding: kubectl port-forward svc/mynginx 8081:80
+
+Open browser: http://localhost:8081
+
+Option 2 (if port-forward fails): minikube tunnel minikube service
+mynginx –url
+
+STEP 5: DELETE DEPLOYMENT & SERVICE
+
+kubectl delete deployment mynginx kubectl delete service mynginx
+
+STEP 6: STOP MINIKUBE
+
+minikube stop
+
+To delete cluster: minikube delete
+
+  --------------------------------
+  SECTION 3: NAGIOS USING DOCKER
+  --------------------------------
+
+STEP 1: PULL NAGIOS IMAGE
+
+docker pull jasonrivers/nagios:latest
+
+STEP 2: RUN NAGIOS CONTAINER
+
+docker run –name nagiosdemo -p 8888:80 jasonrivers/nagios:latest
+
+STEP 3: OPEN NAGIOS DASHBOARD
+
+Open browser: http://localhost:8888
+
+Login: Username: nagiosadmin Password: nagios
+
+STEP 4: CHECK LOGS
+
+docker logs -f nagiosdemo
+
+STEP 5: STOP & REMOVE NAGIOS
+
+docker stop nagiosdemo docker rm nagiosdemo docker rmi
+jasonrivers/nagios:latest
+
+  -------------------------------------------
+  SECTION 4: AWS FREE TIER ACCOUNT CREATION
+  -------------------------------------------
+
+1.  Open: https://aws.amazon.com
+2.  Click “Create AWS Account”
+3.  Enter Email + Name
+4.  Enter verification code from email
+5.  Enter phone number for OTP verification
+6.  Enter debit/credit card details (₹2 refundable charge)
+7.  Choose “Basic Free Plan”
+8.  Open AWS Console → Choose role: Academic / Researcher
+
+  ----------------------------------------------
+  SECTION 5: SBQ QUICK TROUBLESHOOTING ANSWERS
+  ----------------------------------------------
+
+1.  POD restarting repeatedly → check logs: kubectl logs
+
+2.  POD stuck in Pending → not enough resources OR no nodes: kubectl
+    describe pod
+
+3.  Failed deployment → check events: kubectl describe deployment
+    mynginx
+
+4.  Pods failing health check: kubectl describe pod
+
+5.  Rollback faulty deployment: kubectl rollout undo deployment/mynginx
+
+6.  Debug running pod: kubectl exec -it – /bin/bash
+
+7.  Expose service externally: kubectl expose deployment myapp
+    –type=NodePort –port=80
+
+8.  Start Nagios: docker start nagiosdemo
+
+    Stop Nagios: docker stop nagiosdemo
+
+9.  Nagios “Unable to connect to process”: docker restart nagiosdemo
+
+10. Host not appearing in Nagios: nagios -v
+    /usr/local/nagios/etc/nagios.cfg
+
+11. Check Nagios running: docker ps
+
+12. Real-time logs: docker logs -f nagiosdemo
+
+13. Advantages:
+
+-   Continuous monitoring
+-   Alerts
+-   Uptime stats
+-   Plugin support
+-   Open source
+
+  -------------
+  END OF FILE
+  -------------
