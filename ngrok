@@ -10,24 +10,27 @@ Step 3: Download Ngrok 1. Click Download for Windows (64-bit) 2. Save
 the zip file.
 
 Step 4: Install and Open Ngrok 1. Extract zip file 2. Run ngrok.exe
+Ngrok command prompt appears as below
 
-Step 5: Connect Ngrok Account 1. Copy Authtoken from Ngrok dashboard 2.
+Step 5: Connect Ngrok Account 1. Copy Authtoken from Ngrok dashboard->inn your Authroken 2.
 Run: ngrok config add-authtoken
 
-Step 6: Start Ngrok Tunnel for Jenkins 1. Check Jenkins port:
-http://localhost:8081 2. Run: ngrok http 8081 3. Copy the https ngrok
-URL generated.
+1.open cmd at ngrok:ngrok config add-authtoken 34ejJvRYKqtjvBUEYEnxudIbpb7_33i6pYx8BJ2cZ1TpwasWq
+ 2. Run: ngrok http 8081 3. Copy the https ngrok
+URL generated.(at forwarding)
 
 Step 7: Create Webhook in GitHub 1. Repo → Settings → Webhooks → Add
-Webhook 2. Payload URL: https:///github-webhook/ 3. Content Type:
-application/json 4. Select “Just the push event” 5. Add Webhook.
+Webhook
+2. Payload URL: 	Add url https://unhired-stormily-alaine.ngrok-free.dev/github-webhook/
+3. Content Type: application/json 
+4. Select “Just the push event” ,active 5. Add Webhook.
 
-Step 8: Configure Jenkins for Webhooks 1. Open Jenkins Dashboard 2.
+Step 8: Configure Jenkins for Webhooks 1. Open Jenkins Dashboard(Maven_java_build) 2.
 Select Job → Configure 3. Build Triggers: ✔ GitHub hook trigger for
 GITScm polling 4. Save.
 
 Step 9: Test the Setup 1. Make code change → push to GitHub 2. GitHub
-triggers webhook 3. Jenkins auto-build starts.
-
+triggers webhook 3. Jenkins auto-build starts.eg:hello webhook to webhook
+ open jenkins run build pipeline
 Outcome: GitHub and Jenkins connected successfully using Ngrok +
 Webhooks.
