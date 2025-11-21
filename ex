@@ -11,3 +11,7 @@ Your task:
 - If needed, make reasonable assumptions to complete the diagram professionally.
 
 Now I will give you the diagram type and the scenario.
+
+
+
+jenkins app password :mgbm ejkl wncf hmtl
