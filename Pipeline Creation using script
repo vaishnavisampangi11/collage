@@ -1,0 +1,170 @@
+Week 9 – Pipeline Creation using Script
+=======================================
+
+1. Evaluation of Jenkins pipeline.
+2. Working on build triggers for the last Jenkins pipeline.
+3. Hands-on practice on creation of scripted Jenkins pipeline.
+4. Take screenshots for the above tasks.
+
+-------------------------------------------------------------
+                   PROCEDURE
+-------------------------------------------------------------
+
+Step 1 – Create Jenkins Pipeline Job
+------------------------------------
+1. Open Jenkins Dashboard
+2. Click "New Item"
+3. Enter job name: Week9-Pipeline-Script (JS1)
+4. Select "Pipeline"
+5. Click OK
+
+Step 2 – General Section
+------------------------
+Description:
+Provide a description of the project, example:
+"This project demonstrates Jenkins scripted pipeline using Git and Maven."
+
+Step 3 – Build Triggers
+-----------------------
+Configure build triggers of your choice:
+- Poll SCM
+- GitHub Webhook trigger
+- Build periodically (CRON) schedule(* * * * *) apply and save click config and remove stars
+apply and save
+- Manual build only
+
+Step 4 – Advanced Project Options → Pipeline
+-------------------------------------------
+js1 -> configuration-> pipeline 
+Choose "Pipeline Script"
+
+Paste the following code:
+
+-------------------------------------------------------------
+               PIPELINE SCRIPT (USE IN JENKINS)
+-------------------------------------------------------------
+
+pipeline {
+    agent any
+
+    tools {
+        maven 'MAVEN-HOME'
+    }
+
+    stages {
+        stage('git repo & clean') {
+            steps {
+                bat "git clone https://github.com/Vaishnavi111S/Maven_java.git"
+                bat "mvn clean -f mavenjava"
+            }
+        }
+
+        stage('install') {
+            steps {
+                bat "mvn install -f mavenjava"
+            }
+        }
+
+        stage('test') {
+            steps {
+                bat "mvn test -f mavenjava"
+            }
+        }
+
+        stage('package') {
+            steps {
+                bat "mvn package -f mavenjava"
+            }
+        }
+    }
+}
+
+
+check box use Groovy sandbox
+-------------------------------------------------------------
+Step 5 – Apply & Save
+-------------------------------------------------------------
+1. Click "Apply"
+2. Click "Save"
+3. Go back to Project → Click "Build Now"
+4. Check console output
+
+-------------------------------------------------------------
+                    SBQs WITH ANSWERS
+-------------------------------------------------------------
+
+1. Which stage cleans the workspace?
+Answer: Stage: git repo & clean (mvn clean)
+
+2. Where do you provide GitHub repo link?
+Answer: Inside: bat "git clone <YOUR_GITHUB_REPO_LINK>"
+
+3. If Maven is not configured globally, which part fails first?
+Answer: tools { maven 'MAVEN-HOME' }
+
+4. Pipeline not producing .war files — responsible stage?
+Answer: package stage
+
+5. Tests failed — how does Jenkins behave?
+Answer: Pipeline stops at the test stage when mvn test fails.
+
+6. Trigger only on GitHub changes — where to configure?
+Answer: Build Triggers → GitHub hook trigger for GITScm polling
+
+7. Difference between mvn clean and mvn compile?
+Answer:
+- clean = deletes old compiled files
+- compile = compiles code only
+
+8. Folder name is studentapp instead of mavenjava — what to edit?
+Answer: Replace all "-f mavenjava" with "-f studentapp"
+
+9. If install fails, will test & package run?
+Answer: No, pipeline stops on failure.
+
+10. Where to add deployment steps after packaging?
+Answer: Add new stage: stage('deploy') after package.
+
+11. Why use tools { maven 'MAVEN-HOME' } ?
+Answer: To load Maven configured inside Jenkins global tools.
+
+12. How to secure private GitHub credentials?
+Answer: Use withCredentials() inside git clone stage.
+
+13. Which plugin supports pipeline { } syntax?
+Answer: Jenkins Pipeline Plugin (Workflow Aggregator)
+
+14. Jenkins on Linux — what changes?
+Answer: Replace bat with sh commands.
+
+15. Stop execution if git clone fails — how?
+Answer: bat "git clone <repo> || exit 1"
+
+16. Forgot to pull latest code — fix?
+Answer: Add bat "git pull" before building.
+
+17. Compile Hello.java on every commit — how?
+Answer: Add new stage with mvn compile or javac Hello.java.
+
+18. Tests should stop pipeline if fail — where to put mvn test?
+Answer: Inside test stage (default behavior stops on failure).
+
+19. Run pipeline daily at 6 PM — how?
+Answer: Build Periodically (CRON):
+0 18 * * *
+
+20. Package only if compile succeeds — solution?
+Answer: Jenkins does this automatically; stages run sequentially.
+
+21. Need .jar file — what stage to add?
+Answer: Add: stage('jar') { steps { bat "mvn package" } }
+
+22. Git clone failing due to credentials — how to fix?
+Answer: Use credentialsId in git checkout block.
+
+23. Show build number in console — how?
+Answer: echo "Build Number: ${env.BUILD_NUMBER}"
+
+-------------------------------------------------------------
+END OF FILE
+-------------------------------------------------------------
