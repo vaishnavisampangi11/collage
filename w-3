@@ -1,0 +1,245 @@
+📌 README — Week 3 Lab Work Flow
+Objectives
+
+Demonstrating Collaborative Coding
+
+Resolving conflicts when collaborating on the same part of code
+
+Demonstrating how to create and apply a patch
+
+Scenario-based questions
+
+1. Collaborative Coding
+
+Collaborative coding is when multiple people work on the same codebase. It involves sharing code, reviewing changes, and improving quality.
+
+Two ways to collaborate:
+
+  Creating an Organization
+
+Coordinating with others through a shared repository
+
+2. Creating an Organization in GitHub
+Step 1: Create Organization
+
+      Go to GitHub → New Organization
+      
+      Click Create a free organization
+
+Step 2: Set Up Your Organization
+
+      Enter organization name, email, verification
+      
+      Click Next
+
+Step 3: Add Members
+
+      Add collaborator emails
+      
+      Invitations are sent → Collaborators accept
+      
+      Click Complete setup
+
+Set Permissions
+
+Go to:
+      Settings → Member privileges → Base permissions → Write
+
+Then:
+Projects base permissions → Write
+
+Step 4: Create Repository in Organization
+
+    Create a new repo under the organization
+
+    Set private/public
+
+All added members can access based on permissions
+
+3. Sharing Repository Access (Collaborator 1)
+Steps
+
+      Go to repo → Settings → Collaborators
+      
+      Click Manage access → Add people
+
+  Invite collaborator-2
+  
+  They accept the invitation
+
+4. Steps for Collaborator 2
+1. Configure Git
+    git config --global user.name "Your Name"
+    git config --global user.email "you@example.com"
+
+
+Check remote:
+
+    git remote -v
+
+2. Copy the Repository URL
+
+    Copy shared repo link from GitHub.
+
+3. Clone the Repository
+    git clone https://github.com/username/repository-name.git
+cd repository-name
+
+4. Create a Branch
+      git checkout -b feature/your-feature-name
+
+5. Make Changes & Commit
+    git add .
+    git commit -m "Your commit message"
+
+6. Push Your Branch
+    git push origin feature/your-feature-name
+
+7. Keep Branch Updated
+      git checkout main
+      git pull origin main
+      git checkout feature/your-new-feature
+      git merge main
+
+5. Forking Exercise (Contributing to a Public Repo)
+    1. Fork the Repo
+
+Go to:
+
+    https://github.com/Person1/awesome-project
+    Click Fork
+
+Now it becomes:
+    
+    https://github.com/Person2/awesome-project
+
+2. Clone Your Fork
+    git clone https://github.com/your-username/awesome-project
+Make changes:
+      git add .
+      git commit -m "message"
+      git push origin main
+3. Open Pull Request
+
+    Go to your fork
+
+Click Pull Request
+
+Add title + description
+
+Click Create pull request
+
+Shows: No conflicts with base branch
+
+4. Person 1 Actions
+
+        Open Pull Requests
+        
+        Check Files changed
+        
+        Review → Submit review
+        
+        Click Merge pull request
+        
+        Confirm merge
+
+Shows: Pull request successfully merged and closed
+
+5. Update Your Branch
+          git checkout main
+          git pull origin main
+          git checkout feature/your-new-feature
+          git merge main
+
+6. Resolving Merge Conflicts
+          1. Check Conflicted Files
+          git status
+
+
+Example:
+
+both modified: f1.txt
+
+2. Open File
+
+        You will see:
+        
+        <<<<<<< HEAD
+        your version
+        =======
+        other version
+        >>>>>>> feature-branch
+
+3. Fix Conflict
+
+      Choose or combine changes:
+      
+      Example:
+      
+      print("Hello from First collaborator")
+      print("Hello from second collaborator")
+      
+      
+      Remove the conflict markers.
+
+4. Mark as Resolved
+        git add f1.txt
+
+5. Complete Merge
+      git commit
+Rebasing:
+
+    git rebase --continue
+
+              Abort Merge
+              git merge --abort
+
+7. Patches in Git
+        
+        Patch = text file containing changes between commits.
+
+Steps to Create Patch
+1. Clone Repo
+git clone <repo-url>
+
+2. Edit Files & Commit
+git add .
+git commit -m "message"
+
+3. View Commit Log
+git log
+
+
+Copy commit hash.
+
+4. Create Patch
+git format-patch -1 <commit-hash>
+
+
+Creates:
+
+0001-commit-message.patch
+
+
+For last 3 commits:
+
+git format-patch -3
+
+
+For commit range:
+
+git format-patch <base-commit>..HEAD
+
+
+Send the .patch file to owner.
+
+Applying Patch (Owner Side)
+
+Apply patch:
+
+git apply my-changes.patch
+
+
+or for Git-generated patch:
+
+git am 0001-Your-commit-message.patch
