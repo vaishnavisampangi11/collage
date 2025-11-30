@@ -1,0 +1,293 @@
+WEEK 2 — Commands (step-by-step, subheadings only)
+Task 1 — Push multi-folder project to Public repository (teacher)
+
+        git --version
+        
+        cd /path/to/your/project
+        
+        git init
+        
+        git remote add origin https://github.com/yourusername/your-public-repo.git
+        
+        git add .
+        
+        git commit -m "Initial commit"
+        
+        git push -u origin master
+        
+        git push -u origin main
+
+Task 2 — Push multi-folder project to Private repository (student)
+
+            git --version
+            
+            cd /path/to/your/project
+            
+            git init
+            
+            git remote add origin https://github.com/yourusername/your-private-repo.git
+            
+            git add .
+            
+            git commit -m "Initial commit"
+            
+            git push -u origin master
+            
+            git push -u origin main
+
+Git Configuration
+
+        git config --global user.name "Your Name"
+        
+        git config --global user.email "youremail@example.com"
+        
+        git config --list
+
+Repository Management
+
+            git init
+            
+            git clone https://github.com/username/repository.git
+            
+            git remote -v
+            
+            git remote add origin https://github.com/username/repository.git
+            
+            git remote remove origin
+            
+            git remote rename origin upstream
+            
+            git remote set-url origin https://github.com/username/new-repository.git
+            
+            git remote show origin
+            
+            git fetch origin
+            
+            git fetch origin feature-branch
+            
+            git remote prune origin
+
+Staging & Committing
+
+        git status
+        
+        git add filename.txt
+        
+        git add .
+        
+        git commit -m "Commit message describing changes"
+        
+        git commit --amend -m "Corrected commit message"
+
+Pushing & Pulling
+
+      git push <remote_name> <branch_name>
+      
+      git push origin main
+      
+      git push --set-upstream origin feature-branch
+      
+      git pull <remote_name> <branch_name>
+      
+      git pull origin main
+
+Branching & Merging
+
+        git branch
+        
+        git branch -a
+        
+        git branch -r
+        
+        git branch branch-name
+        
+        git branch -d <branch_name>
+        
+        git branch -D <branch_name>
+        
+        git branch -d branc1 branch2 branch3
+        
+        git checkout branch-name
+        
+        git checkout -b new-branch
+        
+        git switch branch-name
+        
+        git switch -c new-branch
+        
+        git merge branch-name
+        
+        git fetch origin
+
+        git rebase origin/main
+        
+        git fetch origin feature-branch
+        
+        git push --set-upstream origin feature-branch
+        
+        Undoing Changes & Recovery
+        
+        git restore filename
+        
+        git reset <file>
+        
+        git reset --hard
+        
+        git revert <commit>
+
+        git reflog
+        
+        git checkout -b feature-ui <commit_hash>
+        
+        Viewing History & Diffs
+        
+        git log
+        
+        git log --oneline
+        
+        git show <commit>
+        
+        git diff
+        
+        git blame script.py
+        
+        Stash
+        
+        git stash
+        
+        git stash apply
+        
+        git stash pop
+
+        .gitignore (create & examples)
+        
+        touch .gitignore
+        
+        echo "*.log" >> .gitignore
+        
+        echo "node_modules/" >> .gitignore
+        
+        echo "temp/" >> .gitignore
+        
+        echo "secret_file.txt" >> .gitignore
+        
+        echo "folder/*" >> .gitignore
+        
+        echo "!folder/important_file.txt" >> .gitignore
+
+Remove sensitive file from history (use with caution)
+git filter-branch --force --index-filter \
+"git rm --cached --ignore-unmatch secrets.txt" \
+--prune-empty --tag-name-filter cat -- --all
+
+Merge conflict resolution (commands)
+
+# resolve conflicts in files (edit to remove <<<<<<< ======= >>>>>>>)
+
+        git add app.js
+        
+        git commit
+        
+        Check if branch is merged
+        
+        git branch --merged
+
+Scenario-based — Answer commands only
+
+Discard local changes (not staged): git restore filename
+
+Remove file from staging (keep changes): git reset <file>
+
+Fix wrong commit message (not pushed): git commit --amend -m "Corrected commit message"
+
+View commit history readable: git log --oneline
+
+Set name & email globally after cloning:
+git config --global user.name "Your Name"
+git config --global user.email "youremail@example.com"
+
+View unstaged edits: git diff
+
+Switch to feature/login: git checkout feature/login (or) git switch feature/login
+
+Recover deleted branch (not pushed):
+git reflog
+git checkout -b feature-ui <commit_hash>
+
+Upload local commits to remote: git push origin main (or appropriate branch)
+
+Fetch without merging: git fetch origin
+
+Create & switch to search-filter: git checkout -b search-filter (or) git switch -c search-filter
+
+Remove committed API key from history: use filter-branch command (see above)
+
+See all local & remote branches: git branch -a
+
+Merge feature/signup into main:
+git checkout main
+git merge feature/signup
+
+Resolve merge conflict in app.js (commands):
+# edit app.js to resolve markers
+git add app.js
+git commit
+
+Stop tracking .log and node_modules/:
+echo "*.log" >> .gitignore
+echo "node_modules/" >> .gitignore
+git rm -r --cached node_modules/
+git add .gitignore
+git commit -m "Update .gitignore"
+
+Who changed line 25 in script.py: git blame -L 25,25 script.py (or) git blame script.py
+
+Save work to switch branches quickly: git stash
+
+Restore stashed changes: git stash apply (or) git stash pop
+
+Delete feature/test locally: git branch -d feature/test
+
+Safely delete feature-ui after merge: git branch -d feature-ui
+
+Delete unmerged branch feature-experiment (force): git branch -D feature-experiment
+
+Deleting feature-ui while on feature-login: ensure you are not on feature-ui, then run git branch -d feature-ui
+
+Before deleting bugfix-footer check merged status: git branch --merged
+
+Delete multiple merged branches at once: git branch -d feature-a feature-b feature-c
+
+Remote-work commands (short answers)
+
+Clone remote repo: git clone https://github.com/username/repository.git
+
+See remotes: git remote -v
+
+Add new remote: git remote add origin https://github.com/username/repository.git
+
+Remove remote: git remote remove origin
+
+Rename remote: git remote rename origin upstream
+
+Fetch updates (no merge): git fetch origin
+
+Pull and merge: git pull origin main
+
+Push commits: git push origin main
+
+Push first time & set upstream: git push --set-upstream origin feature-branch
+
+Change remote URL: git remote set-url origin https://github.com/username/new-repository.git
+
+List remote branches: git branch -r
+
+Clean up deleted remote branches locally: git remote prune origin
+
+Fetch specific branch: git fetch origin feature-branch
+
+Show remote details: git remote show origin
+
+Rebase local onto remote branch:
+git fetch origin
+git rebase origin/main
