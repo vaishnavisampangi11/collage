@@ -1,0 +1,208 @@
+# Week 7 Maven Lab - Step by Step Commands
+
+## 0. Install and Open Eclipse IDE
+
+* Download Eclipse IDE from [https://www.eclipse.org/downloads/](https://www.eclipse.org/downloads/)
+* Install and launch Eclipse.
+* Select a workspace folder where all projects will be saved.
+
+## 1. Install Maven Plugin (if not installed)
+
+* In Eclipse: Help -> Eclipse Marketplace
+* Search for: "Maven Integration for Eclipse"
+* Click Install and follow the prompts
+
+## 2. Create Maven Java Project
+
+* File -> New -> Project... -> Maven -> Maven Project -> Next
+* Select workspace location -> Next
+* Choose archetype: `maven-archetype-quickstart` -> Next
+* Set Project Metadata:
+
+  * Group ID: com.example
+  * Artifact ID: my-maven-project
+  * Version: default
+* Click Finish
+
+## 3. Maven Project Structure
+
+* `src/main/java` -> Java source code
+* `src/main/resources` -> Config files
+* `src/test/java` -> Unit tests
+* `target/` -> Build outputs
+
+## 4. Build and Run Maven Project
+
+* Right-click App.java -> Run As -> Maven Clean
+* Right-click App.java -> Run As -> Maven Install
+* Right-click App.java -> Run As -> Maven Test
+* Right-click App.java -> Run As -> Maven Build
+* Enter Goals: `clean install test` -> Apply -> Run
+* Run Application: Right-click App.java -> Run As -> Java Application
+
+## 5. Add Dependency (e.g., Gson)
+
+* Open `pom.xml`
+* Add:
+
+```xml
+<dependency>
+  <groupId>com.google.code.gson</groupId>
+  <artifactId>gson</artifactId>
+  <version>2.10</version>
+</dependency>
+```
+
+* Run: `mvn clean install`
+
+## 6. Create Maven Web Project
+
+* File -> New -> Project... -> Maven -> Maven Project -> Next
+* Choose archetype: `maven-archetype-webapp` -> Next
+* Set Group ID and Artifact ID -> Finish
+* Add dependencies in `pom.xml` (e.g., Servlet API)
+
+```xml
+<dependency>
+  <groupId>javax.servlet</groupId>
+  <artifactId>javax.servlet-api</artifactId>
+  <version>4.0.1</version>
+  <scope>provided</scope>
+</dependency>
+```
+
+## 7. Configure Server (Tomcat)
+
+* Window -> Show View -> Servers
+* Add server -> Tomcat v9.0 -> Next
+* Configure ports and server location
+* Modify `tomcat-users.xml` for roles/users
+
+## 8. Build and Run Web Project
+
+* Right-click index.jsp -> Run As -> Maven Clean
+* Run As -> Maven Install
+* Run As -> Maven Test
+* Run As -> Maven Build
+* Enter Goals: `clean install test` -> Apply -> Run
+* Run on Server -> Select Tomcat -> Finish
+
+## 9. Configure Java Version via Compiler Plugin
+
+* Add in `pom.xml`:
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>3.11.0</version>
+  <configuration>
+    <source>17</source>
+    <target>17</target>
+  </configuration>
+</plugin>
+```
+
+* Run: `mvn package`
+* Inspect JAR: `jar tf target/myapp.jar`
+
+## 10. JUnit Testing
+
+* Place tests in `src/test/java`
+* Run: `mvn test`
+* Check: `target/test-classes/` and `target/surefire-reports/`
+
+## 11. Handle pom.xml Errors
+
+* Fix typos or missing repositories
+* Run: `mvn clean install`
+
+## 12. Add Resource Files
+
+* Place `config.properties` in `src/main/resources`
+* Read in Java:
+
+```java
+InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
+```
+
+* After build: Check `target/classes/`
+
+## 13. Multi-Module Maven Project
+
+* Create parent project with packaging `pom`
+* Add submodules: core, web
+* Build parent -> child1 -> child2
+* Link dependencies in child2's `pom.xml`
+
+```xml
+<dependency>
+  <groupId>KMIT</groupId>
+  <artifactId>MultimoduleChild1</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+## 14. Create Executable JAR
+
+* Add in `pom.xml`:
+
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>com.example.Main</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+```
+
+* Run: `mvn package`
+* Execute: `java -jar target/myapp.jar`
+
+## 15. Build WAR File
+
+* Maven Web Project Structure: `src/main/webapp/`, `WEB-INF/web.xml`
+* Add: `<packaging>war</packaging>`
+* Run: `mvn package`
+* Deploy `target/mywebapp.war` on Tomcat
+
+## 16. Install Custom JAR
+
+* Run:
+
+```bash
+mvn install:install-file \
+  -Dfile=path/to/library.jar \
+  -DgroupId=com.example \
+  -DartifactId=library \
+  -Dversion=1.0.0 \
+  -Dpackaging=jar
+```
+
+* Build project: `mvn clean install`
+* Check dependency tree: `mvn dependency:tree`
+
+## 17. Skip Tests During Build
+
+* Command: `mvn clean install -DskipTests`
+
+## 18. Generate Site Report
+
+* Command: `mvn site`
+
+## 19. Scenario-Based Commands
+
+* Check error logs: `mvn -X clean install`
+* Rerun failed tests: `mvn -rf :<module>`
+* Change Java version: Update `maven-compiler-plugin`
+* Convert WAR to JAR: Change `<packaging>` and configure main class
+* Multi-module build: Build parent first, then children
