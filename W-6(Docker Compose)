@@ -1,0 +1,185 @@
+# LAB ACTION PLAN – WEEK 6 Docker Compose
+
+## Navigate to Project Folder
+```
+mkdir ~/compose-lab
+cd ~/compose-lab
+```
+
+## Create docker-compose.yml (Initial Setup)
+```
+version: "3.9"
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+```
+
+## Run Multi-Container Setup
+```
+docker compose up -d
+```
+
+## Open Browser to Verify Nginx
+```
+http://localhost:8080
+```
+
+## Modify docker-compose.yml to Add Redis
+```
+services:
+  redis:
+    image: redis:alpine
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - redis
+```
+
+## Restart Services
+```
+docker compose up -d
+docker compose ps
+```
+
+## Zip and Transfer Folder (Deploy to Another Machine)
+```
+zip -r compose-lab.zip compose-lab
+# Transfer zip to new machine
+docker compose up -d
+```
+
+## Add Custom Network and Volume
+```
+networks:
+  app-net:
+
+volumes:
+  db-data:
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    networks:
+      - app-net
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-net
+```
+
+## Run with Network and Volume
+```
+docker compose up -d
+```
+
+## Stop Containers
+```
+docker compose down
+```
+
+## Start Again
+```
+docker compose up -d
+```
+
+## Create Simple Flask App (app.py)
+```
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def home():
+    return "Hello from Flask + Docker!"
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+```
+
+## Create Dockerfile for Flask App
+```
+FROM python:3.10-slim
+WORKDIR /app
+COPY app.py /app/
+RUN pip install flask
+CMD ["python", "app.py"]
+```
+
+## Update docker-compose.yml for Flask App
+```
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+```
+
+## Build and Run Flask App
+```
+docker compose up --build
+```
+
+## Rebuild After Changes
+```
+docker compose up --build
+```
+
+## Check Running Services
+```
+docker compose ps
+```
+
+## Scale Services (Optional)
+```
+docker compose up --scale <service_name>=2 -d
+```
+
+## Stop All Services
+```
+docker compose down
+```
+
+## Scenario-Based Commands
+
+## Check Which Container Uses Port 3000
+```
+docker ps --format "table {{.ID}}	{{.Names}}	{{.Ports}}"
+```
+
+## Stop and Remove Containers
+```
+docker compose down
+```
+
+## Rebuild/Update Only Specific Service (e.g., Frontend)
+```
+docker compose up --build <service_name>
+```
+
+## Share Docker Image
+```
+docker compose build
+docker images
+docker tag <image_id> myuser/myapp:latest
+docker push myuser/myapp:latest
+```
+
