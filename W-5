@@ -1,0 +1,251 @@
+# Docker CLI Commands & Dockerfile – Week 5
+
+## Pull Redis Image
+```
+docker pull redis
+```
+
+## Run Redis Container
+```
+docker run --name my-redis -d redis
+```
+
+## Check Running Containers
+```
+docker ps
+```
+
+## Access Redis CLI
+```
+docker exec -it my-redis redis-cli
+```
+
+## Stop Redis Container
+```
+docker stop my-redis
+```
+
+## Start Redis Container
+```
+docker start my-redis
+```
+
+## Remove Redis Container
+```
+docker rm my-redis
+```
+
+## Remove Redis Image
+```
+docker rmi redis
+```
+
+# Dockerfile Workflow
+
+## Navigate to Project Folder
+```
+cd /c/DockerProjects/Redis
+```
+
+## Create Dockerfile
+```
+FROM redis:latest
+CMD ["redis-server"]
+```
+
+## Build Image
+```
+docker build -t redisnew .
+```
+
+## Run Container From Custom Image
+```
+docker run --name myredisnew -d redisnew
+```
+
+## List Running Containers
+```
+docker ps
+```
+
+## Stop Container
+```
+docker stop myredisnew
+```
+
+## Docker Login
+```
+docker login
+```
+
+## List All Containers
+```
+docker ps -a
+```
+
+## Commit Container as Image
+```
+docker commit 0e993d2009a1 budarajumadhurika/redis1
+```
+
+## List Images
+```
+docker images
+```
+
+## Push Image to Docker Hub
+```
+docker push budarajumadhurika/redis1
+```
+
+## Remove Container
+```
+docker rm 0e993d2009a1
+```
+
+## Remove Image
+```
+docker rmi budarajumadhurika/redis1
+```
+
+## Logout
+```
+docker logout
+```
+
+## Pull Image
+```
+docker pull budarajumadhurika/redis1
+```
+
+## Run Container From Pulled Image
+```
+docker run --name myredis -d budarajumadhurika/redis1
+```
+
+## Redis CLI
+```
+docker exec -it myredis redis-cli
+```
+
+## Set Redis Key
+```
+SET name "Abcdef"
+```
+
+## Get Redis Key
+```
+GET name
+```
+
+## Exit Redis CLI
+```
+exit
+```
+
+## List All Containers
+```
+docker ps -a
+```
+
+## Stop Container
+```
+docker stop myredis
+```
+
+## Remove Container
+```
+docker rm 50a6e4a9c326
+```
+
+## List Images
+```
+docker images
+```
+
+## Remove Image
+```
+docker rmi budarajumadhurika/redis1
+```
+
+# Scenario-Based Commands
+
+## Check Running Containers
+```
+docker ps
+```
+
+## Stop Container web_app
+```
+docker stop web_app
+```
+
+## Build Image myapi
+```
+docker build -t myapi .
+```
+
+## Run Web App Exposing Port
+```
+docker run --name web_app -p 8080:5000 -d web_app
+```
+
+## Enter Container Shell
+```
+docker exec -it <container_id_or_name> sh
+```
+
+## Remove Image old_api
+```
+docker rmi old_api
+```
+
+## Check Logs
+```
+docker logs <container_name>
+```
+
+## Run in Background
+```
+docker run -d <image>
+```
+
+## Check Which Container Uses Port 3000
+```
+docker ps -a --filter "publish=3000"
+```
+
+## Tag Existing Image
+```
+docker tag <image_id> myimage:latest
+```
+
+## Export Image to tar
+```
+docker save -o myimage.tar myimage
+```
+
+## Restart Container Automatically
+```
+docker run --restart=always -d <image>
+```
+
+## Show CPU/RAM Usage
+```
+docker stats
+```
+
+## Limit Memory
+```
+docker run -m 512m <image>
+```
+
+## Dockerfile Pre-Start Command
+```
+RUN <your command>
+```
+
+## Custom Nginx Image
+```
+docker build -t mynginx .
+```
